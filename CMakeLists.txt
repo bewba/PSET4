@@ -1,24 +1,23 @@
 cmake_minimum_required(VERSION 3.16)
-project(PSET14)
+project(PSET4 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# === Qt ===
+# Qt (MSVC)
+set(CMAKE_PREFIX_PATH "C:/QtMSVC/6.9.3/msvc2022_64")
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-# === Proto + gRPC ===
-find_package(Protobuf REQUIRED)
-find_package(gRPC REQUIRED)
+# vcpkg libraries
+set(VCPKG_ROOT "C:/Users/user/vcpkg/installed/x64-windows")
+include_directories(${VCPKG_ROOT}/include)
+link_directories(${VCPKG_ROOT}/lib)
 
-set(PROTO_FILE proto/ocr.proto)
-
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
-grpc_generate_cpp(GRPC_SRCS GRPC_HDRS ${PROTO_FILE})
-
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${Protobuf_INCLUDE_DIRS}
-)
+# Proto files (hardcode generated files if needed)
+set(PROTO_SRCS proto/ocr.pb.cc)
+set(PROTO_HDRS proto/ocr.pb.h)
+set(GRPC_SRCS proto/ocr.grpc.pb.cc)
+set(GRPC_HDRS proto/ocr.grpc.pb.h)
 
 # === Server ===
 add_executable(server
@@ -32,9 +31,11 @@ add_executable(server
 )
 
 target_link_libraries(server
+    PRIVATE
     gRPC::grpc++
-    ${Protobuf_LIBRARIES}
-    Tesseract::libtesseract
+    protobuf::libprotobuf
+    tesseract::tesseract
+    Leptonica::leptonica
 )
 
 # === Client ===
@@ -49,7 +50,10 @@ add_executable(client
 )
 
 target_link_libraries(client
+    PRIVATE
     Qt6::Widgets
     gRPC::grpc++
-    ${Protobuf_LIBRARIES}
+    protobuf::libprotobuf
+    tesseract::tesseract
+    Leptonica::leptonica
 )
