@@ -5,7 +5,7 @@
 #include <QProgressBar>
 #include <QListWidget>
 
-#include "ocr_client.h"
+#include "grpc_client.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

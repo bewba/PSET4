@@ -10,9 +10,10 @@ grpc::Status OCRServiceImpl::SendImage(
     ocr::ImageRequest req;
 
     while (stream->Read(&req)) {
-        std::string batch = req.batch_id;
-        std::string imgId = req.image_id;
-        std::string raw = req.data;
+        std::string batch = req.batch_id();
+        std::string imgId = req.image_id();
+        std::string raw = req.data();
+
 
         pool.enqueue([stream, batch, imgId, raw]() {
             // Load image
