@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ocr;
+
+service OCRService {
+  rpc SendImage(stream ImageRequest) returns (stream OcrResult);
+}
+
+message ImageRequest {
+  string batch_id = 1;
+  string image_id = 2;
+  bytes data = 3;
+}
+
+message OcrResult {
+  string batch_id = 1;
+  string image_id = 2;
+  string text = 3;
+}
