@@ -1,0 +1,4 @@
+E:/School/STDISCM/PSET4/build/CMakeFiles/server.dir
+E:/School/STDISCM/PSET4/build/CMakeFiles/client.dir
+E:/School/STDISCM/PSET4/build/CMakeFiles/ALL_BUILD.dir
+E:/School/STDISCM/PSET4/build/CMakeFiles/ZERO_CHECK.dir
